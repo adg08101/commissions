@@ -1,22 +1,48 @@
 import { useState } from "react";
-import { TextField, Button, Container, Typography, Box } from "@mui/material";
+import axios from "axios";
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Box,
+  Alert,
+} from "@mui/material";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function Login({ setIsAuth }) {
   const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Fake login validation
-    if (form.email && form.password) {
-      localStorage.setItem("user", JSON.stringify(form));
+    setError("");
+
+    if (!form.email || !form.password) {
+      return setError("Email and password are required");
+    }
+
+    try {
+      const res = await axios.post(
+        "http://192.168.1.40:4000/api/auth/login",
+        form,
+        {
+          withCredentials: true, // only if using cookies
+        }
+      );
+
+      // Example response: { user: { id, name, email }, token? }
+      localStorage.setItem("user", JSON.stringify(res.data.user || res.data));
       setIsAuth(true);
       navigate("/");
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.message || "Invalid credentials");
     }
   };
 
@@ -26,6 +52,13 @@ export default function Login({ setIsAuth }) {
         <Typography variant="h5" align="center" gutterBottom>
           Login
         </Typography>
+
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
+
         <form onSubmit={handleSubmit}>
           <TextField
             label="Email"
@@ -48,6 +81,7 @@ export default function Login({ setIsAuth }) {
             Login
           </Button>
         </form>
+
         <Typography variant="body2" align="center" mt={2}>
           Don’t have an account? <Link to="/register">Register</Link>
         </Typography>

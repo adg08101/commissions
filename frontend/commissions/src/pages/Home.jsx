@@ -1,8 +1,5 @@
 import { Button, Container, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-require("react-dom");
-window.React2 = require("react");
-console.log(window.React1 === window.React2);
 
 export default function Home({ setIsAuth }) {
   const navigate = useNavigate();

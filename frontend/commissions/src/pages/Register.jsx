@@ -1,20 +1,54 @@
 import { useState } from "react";
-import { TextField, Button, Container, Typography, Box } from "@mui/material";
+import axios from "axios";
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Box,
+  Alert,
+} from "@mui/material";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function Register() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    if (!form.name.trim()) return "Name is required";
+    if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) return "Invalid email";
+    if (form.password.length < 6)
+      return "Password must be at least 6 characters";
+    return null;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Fake register: just log and redirect
-    console.log("Registered user:", form);
-    navigate("/login");
+    setError("");
+    setSuccess("");
+
+    const validationError = validateForm();
+    if (validationError) return setError(validationError);
+
+    try {
+      const res = await axios.post(
+        "http://192.168.1.40:4000/api/auth/register",
+        form
+      );
+      console.log(res.data);
+
+      setSuccess("User registered successfully!");
+      setTimeout(() => navigate("/login"), 1500);
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.message || "Registration failed");
+    }
   };
 
   return (
@@ -23,6 +57,18 @@ export default function Register() {
         <Typography variant="h5" align="center" gutterBottom>
           Register
         </Typography>
+
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
+        {success && (
+          <Alert severity="success" sx={{ mb: 2 }}>
+            {success}
+          </Alert>
+        )}
+
         <form onSubmit={handleSubmit}>
           <TextField
             label="Name"
@@ -53,6 +99,7 @@ export default function Register() {
             Register
           </Button>
         </form>
+
         <Typography variant="body2" align="center" mt={2}>
           Already have an account? <Link to="/login">Login</Link>
         </Typography>
