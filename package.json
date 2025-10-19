@@ -1,16 +1,17 @@
 {
   "name": "comisiones-backend",
   "version": "1.0.0",
-  "description": "Backend MERN para comisiones y reservas de transporte",
+  "description": "MERN backend for transportation commissions and reservations",
   "main": "src/index.js",
   "scripts": {
     "start": "node backend/src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon backend/src/index.js"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.4",
+    "axios": "^1.6.8",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
