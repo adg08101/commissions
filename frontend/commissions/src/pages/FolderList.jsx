@@ -7,13 +7,16 @@ import Avatar from "@mui/material/Avatar";
 import StoreIcon from "@mui/icons-material/Store";
 import WorkIcon from "@mui/icons-material/Work";
 import BeachAccessIcon from "@mui/icons-material/BeachAccess";
+import { useNavigate } from "react-router-dom";
 
 export default function FolderList() {
+  const navigate = useNavigate();
+
   return (
     <List sx={{ width: "100%", bgcolor: "none" }}>
       <ListItem
         onClick={() => {
-          alert("Branch stores");
+          navigate("/branches");
         }}
       >
         <ListItemAvatar>
