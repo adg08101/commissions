@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
+const checkRole = require("../middleware/checkRole");
+const { authMiddleware } = require("../middleware/auth");
+
+router.use(authMiddleware); // Must be logged in
+router.use(checkRole("admin")); // Must be admin
 
 // Create
 router.post("/", userController.createUser);

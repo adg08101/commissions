@@ -4,6 +4,11 @@ import { AppBar, Toolbar, Button, Typography, Box } from "@mui/material";
 export default function Layout({ setIsAuth }) {
   const navigate = useNavigate();
 
+  // Read user from localStorage
+  const storedUser = localStorage.getItem("user");
+  const currentUser = storedUser ? JSON.parse(storedUser) : null;
+  const isAdmin = currentUser?.role === "admin";
+
   const handleLogout = async () => {
     await fetch("http://192.168.1.40:4000/api/auth/logout", {
       method: "POST",
@@ -41,9 +46,12 @@ export default function Layout({ setIsAuth }) {
             My App
           </Typography>
 
-          <Button color="primary" onClick={() => navigate("/users")}>
-            User Admin
-          </Button>
+          {/* ✅ Render only if admin */}
+          {isAdmin && (
+            <Button color="primary" onClick={() => navigate("/users")}>
+              User Admin
+            </Button>
+          )}
 
           <Button color="error" onClick={handleLogout}>
             Logout

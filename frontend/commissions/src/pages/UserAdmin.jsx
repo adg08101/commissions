@@ -18,6 +18,9 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { IconButton } from "@mui/material";
 import axios from "axios";
 
 export default function UserAdmin() {
@@ -36,7 +39,9 @@ export default function UserAdmin() {
   }, []);
 
   const fetchUsers = async () => {
-    const res = await axios.get("http://192.168.1.40:4000/api/users");
+    const res = await axios.get("http://192.168.1.40:4000/api/users", {
+      withCredentials: true,
+    });
     setUsers(res.data);
   };
 
@@ -71,17 +76,24 @@ export default function UserAdmin() {
     if (formData.id) {
       await axios.put(
         `http://192.168.1.40:4000/api/users/${formData.id}`,
-        formData
+        formData,
+        {
+          withCredentials: true,
+        }
       );
     } else {
-      await axios.post("http://192.168.1.40:4000/api/users", formData);
+      await axios.post("http://192.168.1.40:4000/api/users", formData, {
+        withCredentials: true,
+      });
     }
     fetchUsers();
     handleClose();
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://192.168.1.40:4000/api/users/${id}`);
+    await axios.delete(`http://192.168.1.40:4000/api/users/${id}`, {
+      withCredentials: true,
+    });
     fetchUsers();
   };
 
@@ -112,17 +124,16 @@ export default function UserAdmin() {
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.role}</TableCell>
                 <TableCell>
-                  <Button variant="outlined" onClick={() => handleOpen(user)}>
-                    Edit
-                  </Button>
-                  <Button
-                    variant="outlined"
+                  <IconButton color="primary" onClick={() => handleOpen(user)}>
+                    <EditIcon />
+                  </IconButton>
+
+                  <IconButton
                     color="error"
-                    sx={{ ml: 1 }}
                     onClick={() => handleDelete(user._id)}
                   >
-                    Delete
-                  </Button>
+                    <DeleteIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}
