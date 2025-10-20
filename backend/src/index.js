@@ -11,6 +11,7 @@ const productRoutes = require("./routes/products");
 const saleRoutes = require("./routes/sales");
 const commissionRoutes = require("./routes/commissions");
 const reservationRoutes = require("./routes/reservations");
+const userRoutes = require("./routes/user");
 
 const app = express();
 const PORT = process.env.APP_PORT || 4000;
@@ -34,6 +35,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/sales", saleRoutes);
 app.use("/api/commissions", commissionRoutes);
 app.use("/api/reservations", reservationRoutes);
+app.use("/api/users", userRoutes);
 
 // Error handlers
 app.use((err, req, res, next) => {
