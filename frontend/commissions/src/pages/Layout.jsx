@@ -36,14 +36,14 @@ export default function Layout({ setIsAuth }) {
       </Box>
 
       {/* Navigation Bar */}
-      <AppBar position="static" color="default" elevation={1}>
+      <AppBar position="fixed" color="default" elevation={1}>
         <Toolbar>
           <Typography
             variant="h6"
             sx={{ flexGrow: 1, cursor: "pointer" }}
             onClick={() => navigate("/")}
           >
-            My App
+            Commissions
           </Typography>
 
           {/* ✅ Render only if admin */}
