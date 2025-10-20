@@ -1,28 +1,20 @@
-import { Button, Container, Typography, Box } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Typography, Box, Container } from "@mui/material";
 
-export default function Home({ setIsAuth }) {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    setIsAuth(false);
-    navigate("/login");
-  };
-
+export default function Home() {
   return (
-    <Container maxWidth="sm">
-      <Box mt={8} p={4} boxShadow={3} borderRadius={2} textAlign="center">
-        <Typography variant="h4" gutterBottom>
-          Welcome to Home Page 🎉
-        </Typography>
-        <Typography variant="body1" gutterBottom>
-          You are logged in!
-        </Typography>
-        <Button variant="contained" color="error" onClick={handleLogout}>
-          Logout
-        </Button>
-      </Box>
-    </Container>
+    <>
+      {/* Main Content */}
+      <Container maxWidth="md">
+        <Box mt={6} textAlign="center">
+          <Typography variant="h4" gutterBottom>
+            Home Page
+          </Typography>
+          <Typography variant="body1">
+            This is the home page content. You can place dashboards or widgets
+            here.
+          </Typography>
+        </Box>
+      </Container>
+    </>
   );
 }
