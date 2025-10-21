@@ -5,8 +5,8 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import StoreIcon from "@mui/icons-material/Store";
-import WorkIcon from "@mui/icons-material/Work";
 import BeachAccessIcon from "@mui/icons-material/BeachAccess";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useNavigate } from "react-router-dom";
 
 export default function FolderList() {
@@ -26,13 +26,17 @@ export default function FolderList() {
         </ListItemAvatar>
         <ListItemText primary="Branch stores" secondary="Sucursales" />
       </ListItem>
-      <ListItem>
+      <ListItem
+        onClick={() => {
+          navigate("/products");
+        }}
+      >
         <ListItemAvatar>
           <Avatar>
-            <WorkIcon />
+            <ShoppingCartIcon />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Work" secondary="Jan 7, 2014" />
+        <ListItemText primary="Products" secondary="Productos" />
       </ListItem>
       <ListItem>
         <ListItemAvatar>
