@@ -1,18 +1,31 @@
 const express = require("express");
 const router = express.Router();
-const { authMiddleware, permit } = require("../middleware/auth");
-const {
-  createProduct,
-  listProducts,
-  getProduct,
-  updateProduct,
-  deleteProduct,
-} = require("../controllers/productController");
+const productController = require("../controllers/productController");
+const authMiddleware = require("../middleware/authMiddleware");
+const checkRole = require("../middleware/checkRole");
 
-router.get("/", authMiddleware, listProducts);
-router.post("/", authMiddleware, permit("admin"), createProduct);
-router.get("/:id", authMiddleware, getProduct);
-router.put("/:id", authMiddleware, permit("admin"), updateProduct);
-router.delete("/:id", authMiddleware, permit("admin"), deleteProduct);
+// Public routes (authenticated users)
+router.get("/", authMiddleware, productController.getProducts);
+router.get("/:id", authMiddleware, productController.getProductById);
+
+// Admin-only routes
+router.post(
+  "/",
+  authMiddleware,
+  checkRole("admin"),
+  productController.createProduct
+);
+router.put(
+  "/:id",
+  authMiddleware,
+  checkRole("admin"),
+  productController.updateProduct
+);
+router.delete(
+  "/:id",
+  authMiddleware,
+  checkRole("admin"),
+  productController.deleteProduct
+);
 
 module.exports = router;

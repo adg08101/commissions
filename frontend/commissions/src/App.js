@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import UserAdmin from "./pages/UserAdmin";
 import Layout from "./pages/Layout";
 import BranchAdmin from "./pages/BranchAdmin";
+import ProductAdmin from "./pages/ProductAdmin";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -38,6 +39,12 @@ function App() {
           path="branches"
           element={
             isAuth && isAdmin ? <BranchAdmin /> : <Navigate to="/" replace />
+          }
+        />
+        <Route
+          path="products"
+          element={
+            isAuth && isAdmin ? <ProductAdmin /> : <Navigate to="/" replace />
           }
         />
       </Route>
