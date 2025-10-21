@@ -157,7 +157,9 @@ export default function ProductAdmin() {
             {products.map((product) => (
               <TableRow key={product._id}>
                 <TableCell>{product.sku}</TableCell>
-                <TableCell>{product.name}</TableCell>
+                <TableCell onClick={() => handleOpen(product)}>
+                  {product.name}
+                </TableCell>
                 <TableCell>${product.price.toFixed(2)}</TableCell>
                 <TableCell>{product.commissionType}</TableCell>
                 <TableCell>{product.commissionValue}</TableCell>
@@ -256,9 +258,11 @@ export default function ProductAdmin() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button variant="contained" onClick={handleSubmit}>
-            Save
-          </Button>
+          {isAdmin && (
+            <Button variant="contained" onClick={handleSubmit}>
+              Save
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </Container>
