@@ -52,7 +52,7 @@ export default function BranchAdmin() {
   };
 
   const handleOpen = (branch = null) => {
-    if (!isAdmin) return;
+    // if (!isAdmin) return;
     if (branch) {
       setFormData({
         id: branch._id,
@@ -132,7 +132,9 @@ export default function BranchAdmin() {
           <TableBody>
             {branches.map((branch) => (
               <TableRow key={branch._id}>
-                <TableCell>{branch.name}</TableCell>
+                <TableCell onClick={() => handleOpen(branch)}>
+                  {branch.name}
+                </TableCell>
                 <TableCell>{branch.address}</TableCell>
                 <TableCell>{branch.phone}</TableCell>
                 {isAdmin && (
@@ -193,9 +195,11 @@ export default function BranchAdmin() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button variant="contained" onClick={handleSubmit}>
-            Save
-          </Button>
+          {isAdmin && (
+            <Button variant="contained" onClick={handleSubmit}>
+              Save
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </Container>
